@@ -1,0 +1,10 @@
+ancestor: null
+releases:
+  1.0.0:
+    changes:
+      release_summary: This is the first release of the ``cisco.nso`` collection.
+        The modules in this collection were migrated from Ansible Core with no changes
+        to their functionality.
+    fragments:
+    - 1.0.0.yml
+    release_date: '2020-10-26'

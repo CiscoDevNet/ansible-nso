@@ -1,0 +1,20 @@
+---
+namespace: cisco
+name: nso
+# The version of the collection. Must be compatible with semantic versioning
+version: 1.0.0
+readme: README.md
+authors:
+- list authors here
+description: Ansible Modules for Cisco NSO
+license_file: 'LICENSE'
+tags: 
+- cisco
+- nso
+- cloud
+- collection
+- networking
+repository: https://github.com/CiscoDevNet/ansible-nso
+documentation: https://developer.cisco.com/docs/nso/
+homepage: https://github.com/CiscoDevNet/ansible-nso
+issues: https://github.com/CiscoDevNet/ansible-nso/issues
