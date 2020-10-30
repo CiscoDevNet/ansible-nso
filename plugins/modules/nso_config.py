@@ -101,6 +101,21 @@ EXAMPLES = '''
                     primary:
                       address: 10.10.10.10
                       mask: 255.255.255.255
+
+- name: CONFIGURE NTP SERVER ON DEVICE
+  cisco.nso.nso_config:
+    url: https://10.10.20.49/jsonrpc
+    username: developer
+    password: C1sco12345
+    data:
+      tailf-ncs:devices:
+        device:
+        - name: dist-rtr01
+          config:
+            tailf-ned-cisco-ios:ntp:
+              server:
+                peer-list:
+                  - name: 2.2.2.2
 '''
 
 RETURN = '''
@@ -109,9 +124,9 @@ changes:
     returned: always
     type: complex
     sample:
-        - path: "/l3vpn:vpn/l3vpn{example}/endpoint{office}/bandwidth"
-          from: '6000000'
-          to: '12000000'
+        - path: "/ncs:devices/device{dist-rtr01}/config/ios:interface/Loopback{1}/ip/address/primary/address"
+          from: null
+          to: "10.10.10.10"
           type: set
     contains:
         path:
@@ -131,25 +146,6 @@ diffs:
     description: List of sync changes
     returned: always
     type: complex
-    sample:
-        - path: "/l3vpn:vpn/l3vpn{example}"
-          diff: |2
-             devices {
-                 device pe3 {
-                     config {
-                         alu:service {
-                             vprn 65101 {
-                                 bgp {
-                                     group example-ce6 {
-            -                            peer-as 65102;
-            +                            peer-as 65101;
-                                     }
-                                 }
-                             }
-                         }
-                     }
-                 }
-             }
     contains:
         path:
             description: keypath to service changed

@@ -27,32 +27,24 @@ Once the collection is installed, you can use it in a playbook by specifying the
   gather_facts: no
 
   tasks:
-    - name: Create L3VPN
+    - name: CREATE DEVICE IN NSO
       cisco.nso.nso_config:
-        url: http://localhost:8080/jsonrpc
-        username: nso_username
-        password: nso_password
+        url: https://10.10.20.49/jsonrpc
+        username: developer
+        password: C1sco12345
         data:
-        l3vpn:vpn:
-            l3vpn:
-            - name: company
-            route-distinguisher: 999
-            endpoint:
-            - id: branch-office1
-                ce-device: ce6
-                ce-interface: GigabitEthernet0/12
-                ip-network: 10.10.1.0/24
-                bandwidth: 12000000
-                as-number: 65101
-            - id: branch-office2
-                ce-device: ce1
-                ce-interface: GigabitEthernet0/11
-                ip-network: 10.7.7.0/24
-                bandwidth: 6000000
-                as-number: 65102
-            - id: branch-office3
-                __state: absent
-            __state: in-sync
+          tailf-ncs:devices:
+            device:
+            - address: 10.10.20.175
+              description: CONFIGURED BY ANSIBLE!
+              name: dist-rtr01
+              authgroup: "labadmin"
+              device-type:
+                cli:
+                  ned-id: "cisco-ios-cli-6.44"
+              port: "22"
+              state:
+                admin-state: "unlocked"
 ```
 
 ## Update

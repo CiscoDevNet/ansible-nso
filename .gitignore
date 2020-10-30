@@ -387,6 +387,7 @@ $RECYCLE.BIN/
 
 # vsCode
 .vscode
+.DS_Store
 
 # Ansible Collection tarball
 cisco-nso-*.tar.gz
