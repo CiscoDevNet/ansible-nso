@@ -20,7 +20,7 @@ from __future__ import absolute_import, division, print_function
 __metaclass__ = type
 
 from ansible_collections.cisco.nso.tests.unit.compat.mock import patch
-from ansible_collections.cisco.nso.plugins.modules.network.nso import nso_query
+from ansible_collections.cisco.nso.plugins.modules import nso_query
 from . import nso_module
 from .nso_module import MockResponse
 

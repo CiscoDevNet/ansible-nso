@@ -8,3 +8,21 @@ releases:
     fragments:
     - 1.0.0.yml
     release_date: '2020-10-26'
+  1.0.1:
+    changes:
+      minor_changes:
+      - Added See Also section to docs providing links to additional resources
+      - Added example for nso_action
+      - Corrected import paths in the test modules
+      - Defined data types for arguments in the docs where necessary to pass sanity
+        tests
+      - Existing nso_config L3VPN example replaced with new examples due to existing
+        example reliance on non-default l3vpn module
+      - Modified nso_verify module example
+      - Updated documentation with a See Also section providing links to NSO resources
+      - Updated examples for nso_show
+      - Updated examples in the documentation to align with the NSO DevNet Sandbox
+      - Verified all sanity and unit tests passing
+    fragments:
+    - 1.0.1.yml
+    release_date: '2020-10-30'

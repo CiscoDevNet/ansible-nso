@@ -23,7 +23,7 @@ import json
 
 from ansible_collections.cisco.nso.tests.unit.compat.mock import patch
 from ansible_collections.cisco.nso.tests.unit.compat import unittest
-from ansible_collections.cisco.nso.plugins.module_utils.nso.network.nso import nso
+from ansible_collections.cisco.nso.plugins.module_utils import nso
 
 
 MODULE_PREFIX_MAP = '''

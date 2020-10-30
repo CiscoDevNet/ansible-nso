@@ -39,6 +39,7 @@ options:
   path:
     description: Path to NSO data.
     required: true
+    type: str
   operational:
     description: >
       Controls whether or not operational data is included in the result.
@@ -47,13 +48,31 @@ options:
 '''
 
 EXAMPLES = '''
-- name: Show devices including operational data
+- name: DISPLAY DEVICE INCLUDING OPERATIONAL DATA
   cisco.nso.nso_show:
-    url: http://localhost:8080/jsonrpc
-    username: username
-    password: password
-    path: /ncs:devices/device
+    url: https://10.10.20.49/jsonrpc
+    username: developer
+    password: C1sco12345
+    path: /ncs:devices/device{dist-rtr01}
     operational: true
+  register: result
+
+- name: Display the result
+  debug:
+    var: result
+
+- name: DISPLAY INTERFACES
+  cisco.nso.nso_show:
+    url: "https://10.10.20.49/jsonrpc"
+    username: developer
+    password: C1sco12345
+    path: /ncs:devices/device{dist-rtr01}/config/interface
+    operational: true
+  register: result
+
+- name: Display the result
+  debug:
+    var: result
 '''
 
 RETURN = '''

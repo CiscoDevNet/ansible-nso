@@ -33,4 +33,17 @@ options:
     type: bool
     required: false
     default: false
+seealso:
+  - name: Cisco DevNet NSO Sandbox
+    description: Provides a reservable pod with NSO, virtual network topology simulated with Cisco CML and a Linux host running Ansible
+    link: https://blogs.cisco.com/developer/nso-learning-lab-and-sandbox
+  - name: NSO Developer Resources on DevNet
+    description: Documentation for getting started using NSO
+    link: https://developer.cisco.com/docs/nso/
+  - name: NSO Developer Hub
+    description: Collaboration community portal for NSO developers
+    link: https://community.cisco.com/t5/nso-developer-hub/ct-p/5672j-dev-nso
+  - name: NSO Developer Github
+    description: Code for NSO on Github
+    link: https://github.com/NSO-developer/
 '''

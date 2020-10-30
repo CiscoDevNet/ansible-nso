@@ -38,22 +38,29 @@ options:
   xpath:
     description: XPath selection relative to the root.
     required: true
+    type: str
   fields:
     description: >
       List of fields to select from matching nodes.
     required: true
+    type: list
 '''
 
 EXAMPLES = '''
-- name: Select device name and description
+- name: QUERY DEVICES DISPLAYING NAME AND DESCRIPTION
   cisco.nso.nso_query:
-    url: http://localhost:8080/jsonrpc
-    username: username
-    password: password
+    url: https://10.10.20.49/jsonrpc
+    username: developer
+    password: C1sco12345
     xpath: /ncs:devices/device
     fields:
     - name
     - description
+  register: nso_query_result
+
+- name: DISPLAY NSO_QUERY RESULT
+  debug:
+    var: nso_query_result
 '''
 
 RETURN = '''

@@ -44,23 +44,24 @@ options:
       services to verify service is in sync with the network. Set to absent in
       list entries to ensure they are deleted if they exist in NSO.
     required: true
+    type: dict
 '''
 
 EXAMPLES = '''
-- name: Verify interface is up
-  nso_config:
+- name: VERIFY INTERFACE IS ADMINISTRATIVELY UP
+  nso_verify:
     url: http://localhost:8080/jsonrpc
     username: username
     password: password
     data:
-      ncs:devices:
+      tailf-ncs:devices:
         device:
-        - name: ce0
-          live-status:
-            interfaces:
-              interface:
-                - name: GigabitEthernet0/12
-                - state: Up
+        - name: dist-sw01
+          config:
+            interface:
+              Ethernet:
+                - name: "1/1"
+                  shutdown: false
 '''
 
 RETURN = '''
@@ -69,9 +70,9 @@ violations:
     returned: failed
     type: complex
     sample:
-        - path: /ncs:devices/device{ce0}/description
-          expected-value: CE0 example
-          value: null
+        - path: /ncs:devices/device{dist-sw01}/config/interface/Ethernet{1/1}/shutdown
+          expected-value: false
+          value: true
     contains:
         path:
             description: Path to the value in violation

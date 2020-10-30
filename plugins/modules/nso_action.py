@@ -39,16 +39,20 @@ options:
   path:
     description: Path to NSO action.
     required: true
+    type: str
   input:
     description: >
       NSO action parameters.
+    type: dict
   output_required:
      description: >
        Required output parameters.
+     type: dict
   output_invalid:
      description: >
        List of result parameter names that will cause the task to fail if they
        are present.
+     type: dict
   validate_strict:
      description: >
        If set to true, the task will fail if any output parameters not in
@@ -59,10 +63,18 @@ options:
 EXAMPLES = '''
 - name: Sync NSO device
   cisco.nso.nso_action:
-    url: http://localhost:8080/jsonrpc
-    username: username
-    password: password
-    path: /ncs:devices/device{ce0}/sync-from
+    url: https://10.10.20.49/jsonrpc
+    username: developer
+    password: C1sco12345
+    path: /ncs:devices/device{dist-rtr01}/sync-from
+    input: {}
+
+- name: Check device sync
+  cisco.nso.nso_action:
+    url: https://10.10.20.49/jsonrpc
+    username: developer
+    password: C1sco12345
+    path: /ncs:devices/check-sync
     input: {}
 '''
 

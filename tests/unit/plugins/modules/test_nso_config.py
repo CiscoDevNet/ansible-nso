@@ -22,7 +22,7 @@ __metaclass__ = type
 import json
 
 from ansible_collections.cisco.nso.tests.unit.compat.mock import patch
-from ansible_collections.cisco.nso.plugins.modules.network.nso import nso_config
+from ansible_collections.cisco.nso.plugins.modules import nso_config
 from ansible_collections.cisco.nso.tests.unit.plugins.modules.utils import set_module_args
 from . import nso_module
 from .nso_module import MockResponse

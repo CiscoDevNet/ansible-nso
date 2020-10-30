@@ -44,35 +44,63 @@ options:
       services to verify service is in sync with the network. Set to absent in
       list entries to ensure they are deleted if they exist in NSO.
     required: true
+    type: dict
 '''
 
 EXAMPLES = '''
-- name: Create L3VPN
+- name: CREATE DEVICE IN NSO
   cisco.nso.nso_config:
-    url: http://localhost:8080/jsonrpc
-    username: username
-    password: password
+    url: https://10.10.20.49/jsonrpc
+    username: developer
+    password: C1sco12345
     data:
-      l3vpn:vpn:
-        l3vpn:
-        - name: company
-          route-distinguisher: 999
-          endpoint:
-          - id: branch-office1
-            ce-device: ce6
-            ce-interface: GigabitEthernet0/12
-            ip-network: 10.10.1.0/24
-            bandwidth: 12000000
-            as-number: 65101
-          - id: branch-office2
-            ce-device: ce1
-            ce-interface: GigabitEthernet0/11
-            ip-network: 10.7.7.0/24
-            bandwidth: 6000000
-            as-number: 65102
-          - id: branch-office3
-            __state: absent
-        __state: in-sync
+      tailf-ncs:devices:
+        device:
+        - address: 10.10.20.175
+          description: CONFIGURED BY ANSIBLE!
+          name: dist-rtr01
+          authgroup: "labadmin"
+          device-type:
+            cli:
+              ned-id: "cisco-ios-cli-6.44"
+            port: "22"
+            state:
+              admin-state: "unlocked"
+
+- name: ADD NEW LOOPBACK
+  cisco.nso.nso_config:
+    url: https://10.10.20.49/jsonrpc
+    username: developer
+    password: C1sco12345
+    data:
+        tailf-ncs:devices:
+        device:
+        - name: dist-rtr01
+          config:
+            tailf-ned-cisco-ios:interface:
+                Loopback:
+                - name: "1"
+                  description: Created by Ansible!
+
+- name: CONFIGURE IP ADDRESS ON LOOPBACK
+  cisco.nso.nso_config:
+    url: https://10.10.20.49/jsonrpc
+    username: developer
+    password: C1sco12345
+    data:
+      tailf-ncs:devices:
+        device:
+        - name: dist-rtr01
+          config:
+            tailf-ned-cisco-ios:interface:
+              Loopback:
+              - name: "1"
+                description: Created by Ansible!
+                ip:
+                  address:
+                    primary:
+                      address: 10.10.10.10
+                      mask: 255.255.255.255
 '''
 
 RETURN = '''
