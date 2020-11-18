@@ -49,7 +49,7 @@ options:
 
 EXAMPLES = '''
 - name: VERIFY INTERFACE IS ADMINISTRATIVELY UP
-  nso_verify:
+  cisco.nso.nso_verify:
     url: http://localhost:8080/jsonrpc
     username: username
     password: password
