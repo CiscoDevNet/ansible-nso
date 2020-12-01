@@ -24,7 +24,7 @@ __metaclass__ = type
 
 DOCUMENTATION = '''
 ---
-module: nso_query
+module: cisco.nso.nso_query
 extends_documentation_fragment:
 - cisco.nso.nso
 
