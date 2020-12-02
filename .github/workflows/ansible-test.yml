@@ -95,11 +95,6 @@ jobs:
       - name: Install ansible-base (${{ matrix.ansible }})
         run: pip install https://github.com/ansible/ansible/archive/${{ matrix.ansible }}.tar.gz --disable-pip-version-check
 
-      # OPTIONAL If your unit test requires Python libraries from other collections
-      # Install them like this
-      - name: Install collection dependencies
-        run: ansible-galaxy collection install ansible.netcommon ansible.utils -p .
-
       # Run the unit tests
       - name: Run unit test
         run: ansible-test units -v --color --docker --coverage
