@@ -24,7 +24,7 @@ __metaclass__ = type
 
 DOCUMENTATION = '''
 ---
-module: cisco.nso.nso_query
+module: nso_query
 extends_documentation_fragment:
 - cisco.nso.nso
 
@@ -44,6 +44,7 @@ options:
       List of fields to select from matching nodes.
     required: true
     type: list
+    elements: str
 '''
 
 EXAMPLES = '''
@@ -96,7 +97,7 @@ class NsoQuery(object):
 def main():
     argument_spec = dict(
         xpath=dict(required=True, type='str'),
-        fields=dict(required=True, type='list')
+        fields=dict(required=True, type='list', elements='str')
     )
     argument_spec.update(nso_argument_spec)
 

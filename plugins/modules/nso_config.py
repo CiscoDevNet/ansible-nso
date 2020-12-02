@@ -24,7 +24,7 @@ __metaclass__ = type
 
 DOCUMENTATION = '''
 ---
-module: cisco.nso.nso_config
+module: nso_config
 extends_documentation_fragment:
 - cisco.nso.nso
 
@@ -137,11 +137,6 @@ changes:
             description: Previous value if any, else null
             returned: When previous value is present on value change
             type: str
-        to:
-            description: Current value if any, else null.
-            returned: When new value is present on value change
-        type:
-            description: Type of change. create|delete|set|re-deploy
 diffs:
     description: List of sync changes
     returned: always
