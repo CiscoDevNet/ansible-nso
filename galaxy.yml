@@ -2,7 +2,7 @@
 namespace: cisco
 name: nso
 # The version of the collection. Must be compatible with semantic versioning
-version: 1.0.1
+version: 1.0.2
 readme: README.md
 authors:
 - "Claes Nästén (@cnasten)"

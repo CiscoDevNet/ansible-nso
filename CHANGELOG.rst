@@ -5,6 +5,15 @@ Cisco NSO Ansible Collection Release Notes
 .. contents:: Topics
 
 
+v1.0.2
+======
+
+Minor Changes
+-------------
+
+- add GitHub Action to the repo for automated sanity and unit tests
+- minor fixes to prepare for inclusion in Ansible 2.10
+
 v1.0.1
 ======
 
@@ -28,4 +37,4 @@ v1.0.0
 Release Summary
 ---------------
 
-This is the first release of the ``cisco.nso`` collection. The modules in this collection were migrated from the ``community.network`` collection with no changes to their functionality.
+This is the first release of the ``cisco.nso`` collection. The modules in this collection were migrated from Ansible Core with no changes to their functionality.
