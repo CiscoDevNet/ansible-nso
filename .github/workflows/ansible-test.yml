@@ -98,7 +98,7 @@ jobs:
 
       # Run the unit tests
       - name: Run unit test
-        run: ansible-test units -v --color --docker --coverage --python 3.8
+        run: ansible-test units -v --color --docker --coverage
         working-directory: ./ansible_collections/${{env.NAMESPACE}}/${{env.COLLECTION_NAME}}
 
         # ansible-test support producing code coverage date
