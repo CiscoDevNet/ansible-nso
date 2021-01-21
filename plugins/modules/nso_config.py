@@ -167,13 +167,18 @@ class NsoConfig(object):
         (3, 4, 12)
     ]
 
-    def __init__(self, check_mode, client, data):
+    def __init__(self, check_mode,
+                           client,
+                             data,
+                     commit_flags):
         self._check_mode = check_mode
         self._client = client
         self._data = data
+        self._commit_flags = commit_flags
 
         self._changes = []
         self._diffs = []
+        self._commit_result = []
 
     def main(self):
         # build list of values from configured data
@@ -187,7 +192,7 @@ class NsoConfig(object):
         sync_values = self._sync_check(value_builder.values)
         self._sync_ensure(sync_values)
 
-        return self._changes, self._diffs
+        return self._changes, self._diffs, self._commit_result
 
     def _data_write(self, values):
         th = self._client.get_trans(mode='read_write')
@@ -216,7 +221,7 @@ class NsoConfig(object):
                 })
 
         if len(changes) > 0:
-            warnings = self._client.validate_commit(th)
+            warnings = self._client.validate_commit(th, self._commit_flags)
             if len(warnings) > 0:
                 raise NsoException(
                     'failed to validate transaction with warnings: {0}'.format(
@@ -225,7 +230,12 @@ class NsoConfig(object):
         if self._check_mode or len(changes) == 0:
             self._client.delete_trans(th)
         else:
-            self._client.commit(th)
+            if self._commit_flags:
+              result = self._client.commit(th,self._commit_flags)
+              self._commit_result.append(result)
+            else:
+              result = self._client.commit(th)
+              self._commit_result.append(result)
 
     def _sync_check(self, values):
         sync_values = []
@@ -267,8 +277,10 @@ class NsoConfig(object):
 
 def main():
     argument_spec = dict(
-        data=dict(required=True, type='dict')
-    )
+        data=dict(required=True, type='dict'),
+        commit_flags=dict(required=False, type='list')
+        )
+
     argument_spec.update(nso_argument_spec)
 
     module = AnsibleModule(
@@ -276,18 +288,21 @@ def main():
         supports_check_mode=True
     )
     p = module.params
-
+    
+  
     client = connect(p)
-    nso_config = NsoConfig(module.check_mode, client, p['data'])
+    nso_config = NsoConfig(module.check_mode, client,
+                                            p['data'],
+                                    p['commit_flags'])
     try:
         verify_version(client, NsoConfig.REQUIRED_VERSIONS)
 
-        changes, diffs = nso_config.main()
+        changes, diffs, commit_result = nso_config.main()
         client.logout()
 
         changed = len(changes) > 0
         module.exit_json(
-            changed=changed, changes=changes, diffs=diffs)
+            changed=changed, changes=changes, diffs=diffs, commit_result=commit_result)
 
     except NsoException as ex:
         client.logout()

@@ -14,6 +14,12 @@ import json
 import re
 import socket
 
+#debug
+import logging
+logging.basicConfig(filename='nso.log', level=logging.DEBUG, format='%(asctime)s | %(levelname)s | %(funcName)s |%(message)s')
+import sys
+#end
+
 try:
     unicode
     HAVE_UNICODE = True
@@ -112,14 +118,43 @@ class JsonRpc(object):
         resp, resp_json = self._write_call(payload)
         return resp_json['result']['changes']
 
-    def validate_commit(self, th):
+    def validate_commit(self, th, flags=[]):
+        #debug
+        logging.info('Entering validate_commit')
+        logging.info(f"Called by: {sys._getframe(1).f_code.co_name}")
+        #end
+        # Validation of flags fails in 5.3, even though actual commit works
+        # payload = {'method': 'validate_commit', 'params': {'th': th, 'flags': flags}}
         payload = {'method': 'validate_commit', 'params': {'th': th}}
+        #debug
+        logging.info(f'PAYLOAD {payload}')
+        #end
         resp, resp_json = self._write_call(payload)
+
+        #debug
+        logging.info(f'RESP {resp}')
+        logging.info(f'RESP_JSON {resp_json}')
+        #end
+
         return resp_json['result'].get('warnings', [])
 
-    def commit(self, th):
-        payload = {'method': 'commit', 'params': {'th': th}}
+    def commit(self, th, flags=[]):
+        #debug
+        logging.info('Entering commit')
+        logging.info(f"Called by: {sys._getframe(1).f_code.co_name}")
+        #end
+        payload = {'method': 'commit', 'params': {'th': th, 'flags': flags}}
+        
+        #debug
+        logging.info(f'PAYLOAD {payload}')
+        #end
+
         resp, resp_json = self._write_call(payload)
+        #debug
+        logging.info(f'RESP: {resp}')
+        logging.info(f'RESP_JSON {resp_json}')
+        #end
+
         if len(resp_json['result']) == 0:
             self._maybe_delete_trans(th)
         return resp_json['result']
