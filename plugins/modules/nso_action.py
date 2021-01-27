@@ -58,6 +58,7 @@ options:
        If set to true, the task will fail if any output parameters not in
        output_required is present in the output.
      type: bool
+     default: False
 '''
 
 EXAMPLES = '''
@@ -76,6 +77,15 @@ EXAMPLES = '''
     password: C1sco12345
     path: /ncs:devices/check-sync
     input: {}
+
+- name: Load Native Config
+  cisco.nso.nso_action:
+    url: "https://10.10.20.49/jsonrpc"
+    username: developer
+    password: C1sco12345
+    path: /ncs:devices/ncs:device{dist-rtr01}/load-native-config
+    input: { file: "/home/developer/test.cfg" , verbose: true, mode: "merge"}
+  register: result
 '''
 
 RETURN = '''
@@ -94,6 +104,7 @@ from ansible.module_utils.basic import AnsibleModule
 
 
 class NsoAction(object):
+
     REQUIRED_VERSIONS = [
         (3, 4)
     ]
@@ -113,14 +124,19 @@ class NsoAction(object):
         schema = self._client.get_schema(path=self._path)
         if schema['data']['kind'] != 'action':
             raise ModuleFailException('{0} is not an action'.format(self._path))
-
-        input_schema = [c for c in schema['data']['children']
-                        if c.get('is_action_input', False)]
+        input_schema = []
+        for c in schema['data']['children']:
+            if c.get('is_action_input', False):
+                if c['kind'] == 'choice':
+                    for case in c['cases']:
+                        input_schema.append(case)
+                else:
+                    input_schema.append(c)
 
         for key, value in self._input.items():
             child = next((c for c in input_schema if c['name'] == key), None)
             if child is None:
-                raise ModuleFailException('no parameter {0}'.format(key))
+                raise ModuleFailException("unsupported input parameter '{0}'".format(key))
 
             # implement type validation in the future
 
