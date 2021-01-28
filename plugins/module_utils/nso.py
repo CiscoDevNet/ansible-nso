@@ -112,13 +112,19 @@ class JsonRpc(object):
         resp, resp_json = self._write_call(payload)
         return resp_json['result']['changes']
 
-    def validate_commit(self, th):
-        payload = {'method': 'validate_commit', 'params': {'th': th}}
+    def validate_commit(self, th, flags=None):
+        if flags:
+            payload = {'method': 'validate_commit', 'params': {'th': th, 'flags': flags}}
+        else:
+            payload = {'method': 'validate_commit', 'params': {'th': th}}
         resp, resp_json = self._write_call(payload)
         return resp_json['result'].get('warnings', [])
 
-    def commit(self, th):
-        payload = {'method': 'commit', 'params': {'th': th}}
+    def commit(self, th, flags=None):
+        if flags:
+            payload = {'method': 'commit', 'params': {'th': th, 'flags': flags}}
+        else:
+            payload = {'method': 'commit', 'params': {'th': th}}
         resp, resp_json = self._write_call(payload)
         if len(resp_json['result']) == 0:
             self._maybe_delete_trans(th)
@@ -214,6 +220,7 @@ class JsonRpc(object):
                 'params': params
             }
         }
+
         if th is None:
             resp, resp_json = self._read_call(payload)
         else:
@@ -723,6 +730,7 @@ def connect(params):
 
 def verify_version(client, required_versions):
     version_str = client.get_system_setting('version')
+    client._version = version_str
     if not verify_version_str(version_str, required_versions):
         supported_versions = ', '.join(
             ['.'.join([str(p) for p in required_version])

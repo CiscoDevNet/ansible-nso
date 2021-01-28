@@ -45,6 +45,13 @@ options:
       list entries to ensure they are deleted if they exist in NSO.
     required: true
     type: dict
+  commit_flags:
+     description: >
+       A list containing commit flags. See the API documentation for
+       supported commit flags.
+       https://developer.cisco.com/docs/nso/guides/#!life-cycle-operations-how-to-manipulate-existing-services-and-devices/commit-flags-and-device-service-actions
+     type: list
+     elements: str
 '''
 
 EXAMPLES = '''
@@ -150,6 +157,23 @@ diffs:
             description: configuration difference triggered the re-deploy
             returned: always
             type: str
+commit_result:
+    description: Return values from commit operation
+    returned: always
+    type: complex
+    contains:
+      commit_queue:
+        description: Commit queue ID and status, if any
+        returned: When commit-queue is set in commit_flags
+        type: dict
+    sample:
+      - {
+                "commit_queue": {
+                    "id": 1611776004976,
+                    "status": "async"
+                }
+            }
+
 '''
 
 from ansible_collections.cisco.nso.plugins.module_utils.nso import connect, verify_version, nso_argument_spec
@@ -167,13 +191,15 @@ class NsoConfig(object):
         (3, 4, 12)
     ]
 
-    def __init__(self, check_mode, client, data):
+    def __init__(self, check_mode, client, data, commit_flags):
         self._check_mode = check_mode
         self._client = client
         self._data = data
+        self._commit_flags = commit_flags
 
         self._changes = []
         self._diffs = []
+        self._commit_result = []
 
     def main(self):
         # build list of values from configured data
@@ -187,7 +213,7 @@ class NsoConfig(object):
         sync_values = self._sync_check(value_builder.values)
         self._sync_ensure(sync_values)
 
-        return self._changes, self._diffs
+        return self._changes, self._diffs, self._commit_result
 
     def _data_write(self, values):
         th = self._client.get_trans(mode='read_write')
@@ -216,16 +242,26 @@ class NsoConfig(object):
                 })
 
         if len(changes) > 0:
-            warnings = self._client.validate_commit(th)
+            # Fix for validate_commit method not working with commit flags prior to 5.4.
+            # If version < 5.4 then don't send the flags to validate_commit
+            version = float(self._client._version[0:self._client._version.find('.') + 2:])
+            if version >= 5.4:
+                warnings = self._client.validate_commit(th, self._commit_flags)
+            else:
+                warnings = self._client.validate_commit(th)
             if len(warnings) > 0:
                 raise NsoException(
                     'failed to validate transaction with warnings: {0}'.format(
                         ', '.join((str(warning) for warning in warnings))), {})
-
         if self._check_mode or len(changes) == 0:
             self._client.delete_trans(th)
         else:
-            self._client.commit(th)
+            if self._commit_flags:
+                result = self._client.commit(th, self._commit_flags)
+                self._commit_result.append(result)
+            else:
+                result = self._client.commit(th)
+                self._commit_result.append(result)
 
     def _sync_check(self, values):
         sync_values = []
@@ -267,8 +303,10 @@ class NsoConfig(object):
 
 def main():
     argument_spec = dict(
-        data=dict(required=True, type='dict')
+        data=dict(required=True, type='dict'),
+        commit_flags=dict(required=False, type='list', elements='str')
     )
+
     argument_spec.update(nso_argument_spec)
 
     module = AnsibleModule(
@@ -276,18 +314,17 @@ def main():
         supports_check_mode=True
     )
     p = module.params
-
     client = connect(p)
-    nso_config = NsoConfig(module.check_mode, client, p['data'])
+    nso_config = NsoConfig(module.check_mode, client, p['data'], p['commit_flags'])
     try:
         verify_version(client, NsoConfig.REQUIRED_VERSIONS)
 
-        changes, diffs = nso_config.main()
+        changes, diffs, commit_result = nso_config.main()
         client.logout()
 
         changed = len(changes) > 0
         module.exit_json(
-            changed=changed, changes=changes, diffs=diffs)
+            changed=changed, changes=changes, diffs=diffs, commit_result=commit_result)
 
     except NsoException as ex:
         client.logout()

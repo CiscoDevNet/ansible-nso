@@ -5,6 +5,16 @@ Cisco NSO Ansible Collection Release Notes
 .. contents:: Topics
 
 
+v1.0.3
+======
+
+Minor Changes
+-------------
+
+- nso_action can now handle YANG model choices as input parameters (https://github.com/CiscoDevNet/ansible-nso/issues/1)
+- nso_config now supports setting commit flags such as "no-networking", "commit-queue", etc. (https://github.com/CiscoDevNet/ansible-nso/issues/2)
+- nso_config will now return a commit_results dictionary containing the results such as commit-queue-id, rollback-id,  etc. (https://github.com/CiscoDevNet/ansible-nso/issues/3)
+
 v1.0.2
 ======
 
