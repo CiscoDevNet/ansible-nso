@@ -2,12 +2,12 @@
 
 The ansible-nso project provides an Ansible collection for managing and automating your Cisco NSO environment. It consists of a set of modules and roles for performing tasks in NSO.
 
-This collection has been tested and supports version 5.3+ of NSO.
+This collection has been tested and supports version 6.2 and 6.3 of NSO.
 
-*Note: This collection is not compatible with versions of Ansible before v2.9.
+*Note: This collection is not compatible with versions of Ansible before v2.16.
 
 ## Requirements
-Ansible v2.9 or newer
+Ansible v2.16.2 or newer
 
 ## Install
 Ansible must be installed
@@ -41,7 +41,7 @@ Once the collection is installed, you can use it in a playbook by specifying the
               authgroup: "labadmin"
               device-type:
                 cli:
-                  ned-id: "cisco-ios-cli-6.44"
+                  ned-id: "cisco-ios-cli-6.105"
               port: "22"
               state:
                 admin-state: "unlocked"
