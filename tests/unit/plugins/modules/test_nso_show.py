@@ -61,7 +61,7 @@ class TestNsoShow(nso_module.TestNsoModule):
             MockResponse('get_system_setting', {'operation': 'version'}, 200, '{"result": "4.5"}'),
             MockResponse('new_trans', {'mode': 'read'}, 200, '{"result": {"th": 1}}'),
             MockResponse('show_config', {'path': path, 'result_as': 'json'}, 200, '{"result": {"data": {}}}'),
-            MockResponse('show_config', {'path': path, 'result_as': 'string'}, 200, '{"result": {"config": {}}}'),
+            MockResponse('show_config', {'path': path, 'result_as': 'string'}, 200, '{"result": {"config": ""}}'),
             MockResponse('logout', {}, 200, '{"result": {}}'),
         ]
         open_url_mock.side_effect = lambda *args, **kwargs: nso_module.mock_call(calls, *args, **kwargs)
@@ -83,7 +83,7 @@ class TestNsoShow(nso_module.TestNsoModule):
             MockResponse('get_system_setting', {'operation': 'version'}, 200, '{"result": "4.5"}'),
             MockResponse('new_trans', {'mode': 'read'}, 200, '{"result": {"th": 1}}'),
             MockResponse('show_config', {'path': path, 'result_as': 'json'}, 200, '{"result": {"data": {}}}'),
-            MockResponse('show_config', {'path': path, 'result_as': 'string'}, 200, '{"result": {"config": {}}}'),
+            MockResponse('show_config', {'path': path, 'result_as': 'string'}, 200, '{"result": {"config": ""}}'),
             MockResponse('logout', {}, 200, '{"result": {}}'),
         ]
         open_url_mock.side_effect = lambda *args, **kwargs: nso_module.mock_call(calls, *args, **kwargs)
