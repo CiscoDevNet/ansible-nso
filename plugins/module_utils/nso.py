@@ -181,13 +181,13 @@ class JsonRpc(object):
         resp, resp_json = self._write_call(payload)
         return resp_json['result']
 
-    def show_config(self, path, operational=False):
+    def show_config(self, path, operational=False, result_as = 'json'):
         payload = {
             'method': 'show_config',
             'params': {
                 'path': path,
-                'result_as': 'json',
-                'with_oper': operational}
+                'with_oper': operational,
+                'result_as': result_as,}
         }
         resp, resp_json = self._read_call(payload)
         return resp_json['result']
