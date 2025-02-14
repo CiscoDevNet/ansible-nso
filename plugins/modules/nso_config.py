@@ -70,9 +70,9 @@ EXAMPLES = '''
           device-type:
             cli:
               ned-id: "cisco-ios-cli-6.44"
-            port: "22"
-            state:
-              admin-state: "unlocked"
+          port: "22"
+          state:
+            admin-state: "unlocked"
 
 - name: ADD NEW LOOPBACK
   cisco.nso.nso_config:
