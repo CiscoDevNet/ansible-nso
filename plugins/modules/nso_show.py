@@ -128,7 +128,7 @@ def main():
     client = connect(p)
     nso_show = NsoShow(
         module.check_mode, client,
-        p['path'], p['operational']), p['result_as']
+        p['path'], p['operational'], p['result_as'])
     try:
         verify_version(client, NsoShow.REQUIRED_VERSIONS)
 
