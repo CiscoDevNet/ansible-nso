@@ -70,7 +70,8 @@ class TestNsoShow(nso_module.TestNsoModule):
             'username': 'user', 'password': 'password',
             'url': 'http://localhost:8080/jsonrpc',
             'path': path,
-            'operational': False
+            'operational': False,
+            'result_as': 'json'
         })
         self.execute_module(changed=False, output={"data": {}})
         self.assertEqual(0, len(calls))
