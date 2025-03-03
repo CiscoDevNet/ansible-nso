@@ -27,7 +27,8 @@ nso_argument_spec = dict(
     username=dict(type='str', required=True, fallback=(env_fallback, ['ANSIBLE_NET_USERNAME'])),
     password=dict(type='str', required=True, no_log=True, fallback=(env_fallback, ['ANSIBLE_NET_PASSWORD'])),
     timeout=dict(type='int', default=300),
-    validate_certs=dict(type='bool', default=False)
+    validate_certs=dict(type='bool', default=False),
+    result_as=dict(type='str', required=False, default='json'))
 )
 
 
