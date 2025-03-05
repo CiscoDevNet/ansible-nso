@@ -45,3 +45,10 @@ releases:
     fragments:
     - 1.0.3.yml
     release_date: '2021-01-27'
+  1.0.4:
+    changes:
+      minor_changes:
+      - nso_show can now handle additional input parameter i.e., result_as with choices like string and json.When result_as is set to string, the output will be in CLI format; otherwise, it will be in JSON format.
+    fragments:
+    - 1.0.4.yml
+    release_date: '2025-03-31'
