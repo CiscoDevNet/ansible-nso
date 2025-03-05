@@ -10,7 +10,7 @@ v1.0.4
 Minor Changes
 -------------
 
-- nso_config can now handle additional input parameter i.e., result_as with choices like string and json.When result_as is set to string, the output will be in CLI format; otherwise, it will be in JSON format.
+- nso_show can now handle additional input parameter i.e., result_as with choices like string and json.When result_as is set to string, the output will be in CLI format; otherwise, it will be in JSON format.
 
 
 v1.0.3
