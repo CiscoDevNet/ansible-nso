@@ -10,7 +10,7 @@ v1.0.4
 Minor Changes
 -------------
 
-- Enhanced nso_show: Added a new input parameter called result_as which allows the user to choose the output format. The acceptable values for this parameter are "string" or "json" (with "json" being the default). If result_as is set to "string", the output will be in CLI format.
+- Enhanced nso_show: Added a new input parameter called result_as which allows the user to choose the output format. The acceptable values for this parameter are "string" or "json" (with "json" being the default).
 
 
 v1.0.3
