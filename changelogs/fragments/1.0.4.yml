@@ -1,0 +1,2 @@
+minor_changes:
+  - Enhanced nso_show: Added a new input parameter called result_as which allows the user to choose the output format. The acceptable values for this parameter are "string" or "json" (with "json" being the default).

@@ -45,3 +45,10 @@ releases:
     fragments:
     - 1.0.3.yml
     release_date: '2021-01-27'
+  1.0.4:
+    changes:
+      minor_changes:
+      - Enhanced nso_show: Added a new input parameter called result_as which allows the user to choose the output format. The acceptable values for this parameter are "string" or "json" (with "json" being the default).
+    fragments:
+    - 1.0.4.yml
+    release_date: '2025-03-10'

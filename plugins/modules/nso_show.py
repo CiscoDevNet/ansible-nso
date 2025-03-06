@@ -102,13 +102,13 @@ class NsoShow(object):
         self._client = client
         self._path = path
         self._operational = operational
-        self.result_as = result_as
+        self._result_as = result_as
 
     def main(self):
         if self._check_mode:
             return {}
         else:
-            return self._client.show_config(self._path, self._operational, self.result_as)
+            return self._client.show_config(self._path, self._operational, self._result_as)
 
 
 def main():
@@ -128,7 +128,7 @@ def main():
     client = connect(p)
     nso_show = NsoShow(
         module.check_mode, client,
-        p['path'], p['operational']), p['result_as']
+        p['path'], p['operational'], p['result_as'])
     try:
         verify_version(client, NsoShow.REQUIRED_VERSIONS)
 
